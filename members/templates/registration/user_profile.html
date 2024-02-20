@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>Profile</h1>
+<br/>
+<div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-2">
+        {% if page_user.profile_pic %}
+            <img src="{{ page_user.profile_pic.url }}" class="card-image" width=100% height=100%>
+        {% else %}
+            <img src="{% static 'theblog/images/default_profile_pic.jpg' %}" class="card-image" width=100% height=100%>
+        {% endif %}
+      </div>
+      <div class="col-md-10">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ page_user.user.first_name }} {{ page_user.user.last_name }}
+          </h5>
+          <p class="small text-muted">
+            {% if page_user.website_url %}
+                <a href = "{{ page_user.website_url }}">Website</a> 
+            {% endif %}
+
+            {% if page_user.linkedin_url %}
+               | <a href = "{{ page_user.linkedin_url }}">LinkedIn</a> 
+            {% endif %}
+
+            {% if page_user.facebook_url %}
+               | <a href = "{{ page_user.facebook_url }}">Facebook</a> 
+            {% endif %}
+
+            {% if page_user.twitter_url %}
+               | <a href = "{{ page_user.twitter_url }}">Twitter</a> 
+            {% endif %}
+
+            {% if page_user.instagram_url %}
+               | <a href = "{{ page_user.instagram_url }}">Instagram</a> 
+            {% endif %}
+
+            {% if page_user.youtube_url %}
+               | <a href = "{{ page_user.youtube_url }}">Youtube</a>
+            {% endif %}
+            </p>
+          <p class="card-text">{{ page_user.bio }}</p>
+        </div>
+        {% if user.is_authenticated %}
+          {% if user.profile %}
+            {% if user.id != profile.user.id %}
+              {% if not subscribed %}
+                <form method="POST" class="ml-3 mb-3" action="{% url 'subscribe_to_user' pk=profile.user.id %}">
+                  {% csrf_token %}
+                  <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Subscibe</button>
+                </form>
+              {% else %}
+                <form method="POST" class="ml-3 mb-3" action="{% url 'subscribe_to_user' pk=profile.user.id %}">
+                  {% csrf_token %}
+                  <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Unsubscibe</button>
+                </form>
+              {% endif %}
+            {% endif %}
+          {% else %}
+            <form method="POST" class="ml-3 mb-3" action="{% url 'create_profile_page' %}">
+            {% csrf_token %}
+            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Create Profile to subscribe</button>
+          </form>
+          {% endif %}
+        {% else %}
+          <form method="POST" class="ml-3 mb-3" action="{% url 'login' %}">
+            {% csrf_token %}
+            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Login to subscribe</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <hr> 
+
+  <header class="mb-4">
+      <h1>Posted By {{page_user.user.first_name}} {{page_user.user.last_name}}</h1>
+  </header>
+  <div class="band">
+      {% for post in posted %}
+      <div class="item-1 mb-3" style="width: 100%;">
+        <a href="{% url 'article_detail' post.pk %}" class="card">
+          {% if post.header_image %}
+          <div class="thumb"><img src="{{ post.header_image.url}}" class="card-image" style="object-fit: cover; max-height: 400px;" width=100%></div>
+          {% endif %}
+          <article>
+            <h1>{{ post.title }}</h1>
+            <span class="mt-0"><small class="text-dark font-weight-bold">{{ post.category }}</small></span>
+            <span style="text-transform: none;">{{ post.snippet|safe }}</span>
+            <span> by {{ post.author.first_name }} {{ post.author.last_name }} {{ post.post_date}}</span>
+          </article>
+        </a>
+      </div> 
+      {% endfor %}
+  </div>
+
+{% endblock %}

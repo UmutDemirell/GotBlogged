@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile Page{% endblock %}
+{% block content %}
+
+{% if user.is_authenticated %}
+
+    {% if user.id == profile.user.id %}
+    
+        <h1>Edit Profile</h1>
+        <br/>
+        
+        <div class="form-group">
+            <form method="POST" enctype="multipart">
+                {% csrf_token %}
+                {{ form.media }}
+                {{ form.as_p }}
+                <button class="btn btn-secondary">Update</button>
+            </form>
+        </div>
+
+    {% else %}
+
+        <div class="alert alert-danger" role="alert">
+            You are not the profile owner!
+        <a href="{% url 'home'%}" class="float-right">Return Home</a>
+        </div>
+    
+    {% endif %}
+
+{% else %}
+
+    <div class="alert alert-danger" role="alert">
+        You are not allowed!
+    <a href="{% url 'home'%}" class="float-right">Return Home</a>
+    </div>
+
+{% endif %}
+
+{% endblock %}
+

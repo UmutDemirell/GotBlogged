@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Create A New Blog Post{% endblock %}
+{% block content %}
+
+{% if user.is_authenticated %}
+    {% if profile %}
+
+        <h1>Add Post</h1>
+        <br/>
+        
+        <div class="form-group">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.media }}
+                {{ form.as_p }}
+                <button class="btn btn-secondary">Post</button>
+            </form>
+        </div>
+
+    {% else %} 
+
+        <div class="alert alert-danger" role="alert">
+            You must create a profile first!
+        <a href="{% url 'home'%}" class="float-right">Return Home</a>
+        </div> 
+
+    {% endif %}
+{% else %}
+
+    <div class="alert alert-danger" role="alert">
+        You are not allowed!
+    <a href="{% url 'home'%}" class="float-right">Return Home</a>
+    </div> 
+
+{% endif %}
+
+{% endblock %}
+

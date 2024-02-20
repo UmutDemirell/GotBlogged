@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<header class="mb-4">
+    <h1>Subscribtions</h1>
+</header>
+  {% if posts%}
+    <div class="band">
+        {% for post in posts %}
+        <div class="item-1 mb-3" style="width: 100%;">
+          <a href="{% url 'article_detail' post.pk %}" class="card">
+            {% if post.header_image %}
+            <div class="thumb"><img src="{{ post.header_image.url}}" class="card-image" style="object-fit: cover; max-height: 400px;" width=100%></div>
+            {% endif %}
+            <article>
+              <h1>{{ post.title }}</h1>
+              <span class="mt-0"><small class="text-dark font-weight-bold">{{ post.category }}</small></span>
+              <span style="text-transform: none;">{{ post.snippet|safe }}</span>
+              <span> by {{ post.author.first_name }} {{ post.author.last_name }} {{ post.post_date}}</span>
+            </article>
+          </a>
+        </div> 
+        {% endfor %}
+    </div>
+  {% else %}
+      <div class="alert alert-danger" role="alert">
+          No subscription found! 
+          <a href="{% url 'home'%}" class="float-right">Return Home</a>
+      </div>         
+  {% endif %}
+
+{% endblock %}

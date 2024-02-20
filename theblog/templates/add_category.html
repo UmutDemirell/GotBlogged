@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Create A New Blog Category{% endblock %}
+{% block content %}
+
+{% if user.is_authenticated %}
+
+    {% if user.is_superuser %}
+    
+        <h1>Add Category</h1>
+        <br/>
+        
+        <div class="form-group">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="InputCategory" class="form-label" style = "width: 100%;">Category</label>
+                    <input type="text" class="form-control" name="name" placeholder="Please Enter A Category">
+                </div>
+                <button class="btn btn-secondary">Add Category</button>
+            </form>
+        </div>
+        
+    {% else %}
+
+    <div class="alert alert-danger" role="alert">
+            You have no permission!
+        <a href="{% url 'home'%}" class="float-right">Return Home</a>
+    </div>     
+
+    {% endif %}
+
+{% else %}
+
+<div class="alert alert-danger" role="alert">
+        You are not allowed!
+    <a href="{% url 'home'%}" class="float-right">Return Home</a>
+</div>     
+
+{% endif %}
+
+{% endblock %}
+

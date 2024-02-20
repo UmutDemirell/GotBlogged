@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Register{% endblock %}
+{% block content %}
+
+<div class="row" style="margin-top: 50px;">
+    <div class="col-md"  style="margin-top: 100px;">
+        <img src="{% static 'theblog/images/gotblogged.png' %}" style="object-fit: cover; max-height: 400px;" width=100%>
+    </div>
+    <div name = "login"class="col">
+        <h1>Register</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="InputUsername" class="form-label" style = "width: 100%;">Username
+                <span id = "username-error" class= "text-danger js-error" style = "float:right;"></span></label>
+                <input type="text" class="form-control" id="contact-username" onkeyup = "validateUsername();"
+                name="username" placeholder="Please Enter Your Username">
+            </div>
+
+            <div class="form-group">
+                <label for="InputFirstName" class="form-label" style = "width: 100%;">First Name
+                <span id = "first-name-error" class= "text-danger js-error" style = "float:right;"></span></label>
+                <input type="text" class="form-control" id="contact-first-name" onkeyup = "validateFirstName();"
+                name="first_name" placeholder="Please Enter Your First Name">
+            </div>
+
+            <div class="form-group">
+                <label for="InputLastName" class="form-label" style = "width: 100%;">Last Name
+                <span id = "last-name-error" class= "text-danger js-error" style = "float:right;"></span></label>
+                <input type="text" class="form-control" id="contact-last-name" onkeyup = "validateLastName();"
+                name="last_name" placeholder="Please Enter Your Last Name">
+            </div>
+
+            <div class="form-group">
+                <label for="InputEmail" class="form-label" style = "width: 100%;">Email
+                <span id = "email-error" class= "text-danger js-error" style = "float:right;"></span></label>
+                <input type="text" class="form-control" id="contact-email" onkeyup = "validateEmail();"
+                name="email" placeholder="Please Enter Your Email">
+            </div>
+            
+            <div class="form-group">
+                <label for="InputPassword" class="form-label" style = "width: 100%;">Password
+                <span id = "password-error" class= "text-danger js-error" style = "float:right;"></span></label>
+                <input type="password" class="form-control" id="contact-password" onkeyup = "validatePasswordCreation();"
+                name="password" placeholder="Please Enter Your Password">
+            </div>
+            <div class="form-group">
+                <label for="InputPassword" class="form-label" style = "width: 100%;">Confirm Password
+                <span id = "confirm-password-error" class= "text-danger js-error" style = "float:right;"></span></label>
+                <input type="password" class="form-control" id="contact-confirm-password" onkeyup = "validateConfirmPassword();"
+                name="password_confirm" placeholder="Please Enter Your Password Again">
+            </div>
+            <button class="btn btn-secondary" onclick = "return validateRegisterForm();">Register</button>
+        </form>
+        <div style = "display: none;" id = "register-submit-error" class="js-error text-center text-lg-start mt-4 pt-2 alert alert-danger" role="alert"></div>
+    </div>
+</div>
+
+{% endblock %}

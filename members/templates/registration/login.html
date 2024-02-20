@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+{% block content %}
+
+<div class="row" style="margin-top: 150px;">
+    <div class="col-md">
+        <img src="{% static 'theblog/images/gotblogged.png' %}" style="object-fit: cover; max-height: 400px;" width=100%>
+    </div>
+    <div name = "login"class="col">
+        <h1>Login</h1>
+        <br/>
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="InputUsername" class="form-label" style = "width: 100%;">Username
+                <span id = "username-error" class= "text-danger js-error" style = "float:right;"></span></label>
+                <input type="text" class="form-control" id="contact-username" onkeyup = "validateUsername();"
+                name="username" placeholder="Please Enter Your Username">
+            </div>
+
+            <div class="form-group">
+                <label for="InputPassword" class="form-label" style = "width: 100%;">Password
+                <span id = "password-error" class= "text-danger js-error" style = "float:right;"></span></label>
+                <input type="password" class="form-control" id="contact-password" onkeyup = "validatePassword();"
+                name="password" placeholder="Please Enter Your Password">
+            </div>
+            <button class="btn btn-secondary" onclick = "return validateLoginForm();">Login</button>
+        </form>
+        <div style = "display: none;" id = "login-submit-error" class="js-error text-center text-lg-start mt-4 pt-2 alert alert-danger" role="alert"></div>
+        <br/>
+        <small class="form-text text-muted">Don't have an account? <a href="{% url 'register' %}">Sign Up</a> <a href="{% url 'reset_password' %}" class="float-right">Forgot Password?</a></small>  
+    </div>
+</div>
+{% endblock %}

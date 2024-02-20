@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Delete Blog Post{% endblock %}
+{% block content %}
+
+{% if user.is_authenticated %}
+    {% if user.id == post.author.id  or user.is_superuser %}
+
+        <h1>Delete Post</h1>
+        <br/>
+
+        <div class="form-group">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="alert alert-danger" style="font-size: 120%;" role="alert">
+                <strong>Delete {{ post.title }}: </strong>
+                Are You Sure to Delete This Post?
+                </div>   
+                <div>  
+                <button class="btn btn-secondary">Delete</button>               
+                <a class="btn btn-secondary float-right" href="{% url 'article_detail' post.pk %}">Cancel</a>
+                </div>
+                           
+            </form>
+        </div>
+    {% else %}
+
+            <div class="alert alert-danger" role="alert">
+                You are not the author!
+            <a href="{% url 'home'%}" class="float-right">Return Home</a>
+            </div>
+                
+    {% endif %}
+        
+{% else %}
+
+    <div class="alert alert-danger" role="alert">
+        You are not allowed!
+    <a href="{% url 'home'%}" class="float-right">Return Home</a>
+    </div>
+
+{% endif %}
+
+{% endblock %}
